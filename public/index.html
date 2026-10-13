@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BWF World Rankings | Live Analytics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🏸 COURT<span>RANKINGS</span></div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ค้นหาประเทศ...">
+            <button onclick="searchCountry()">🔍</button>
+            <button onclick="fetchRankings()" class="reset-btn">🔄</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="table-header">
+            <h2>🌍 จัดอันดับทีมชาติ (Team Rankings)</h2>
+            <span class="update-time">อัปเดตล่าสุด: วันนี้ 12:00 น.</span>
+        </div>
+
+        <p class="sort-status" id="sortStatus" role="status" aria-live="polite"></p>
+
+        <div class="table-container">
+            <table id="rankingTable">
+                <thead>
+                    <tr>
+                        <th>อันดับ</th>
+                        <th>ประเทศ</th>
+                        <th aria-sort="none"><button class="sort-button" type="button" data-sort="matches" data-label="แข่ง">แข่ง</button></th>
+                        <th aria-sort="descending"><button class="sort-button" type="button" data-sort="wins" data-label="ชนะ">ชนะ</button></th>
+                        <th aria-sort="none"><button class="sort-button" type="button" data-sort="winRate" data-label="อัตราชนะ">อัตราชนะ</button></th>
+                        <th>ฟอร์ม 5 นัดหลัง</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- ข้อมูลจะถูก render ที่นี่ผ่าน app.js -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
