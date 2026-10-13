@@ -1,113 +1,356 @@
+/* =========================================================
+   COURTRANKINGS – High-contrast sport dashboard
+   Display: Kanit Italic (หนา เอียง สปอร์ต, รองรับภาษาไทย)
+   Body:    Inter + Noto Sans Thai (บาง เรียบ อ่านง่าย)
+   ========================================================= */
+
 :root {
     --court-green: #105c3c;
     --dark-green: #0a3d27;
     --line-white: #ffffff;
     --accent-green: #00ff88;
-    --bg-dark: #121212;
-    --row-hover: #1e1e1e;
+    --bg-dark: #0c0e0d;
+    --surface: #151816;
+    --row-hover: #1c211e;
+    --line: #2a302c;
+    --muted: #8d9892;
+
+    --font-display: 'Kanit', 'Noto Sans Thai', sans-serif;
+    --font-body: 'Inter', 'Noto Sans Thai', 'Segoe UI', Tahoma, sans-serif;
+
+    --slant: 14px; /* ความเอียงของเส้นเฉียงทั้งหมด */
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
     background-color: var(--bg-dark);
     color: var(--line-white);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
+button,
+input {
+    font-family: inherit;
+}
+
+/* ---------- ไอคอน (เส้นบาง เรียบง่าย) ---------- */
+.icon {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   NAVBAR – พื้นเขียวเข้ม มีแถบเฉียงด้านขวา
+   ========================================================= */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
     background-color: var(--dark-green);
-    padding: 15px 30px;
     border-bottom: 3px solid var(--accent-green);
+    overflow: hidden;
+}
+
+/* แถบเฉียงสีสนาม */
+.navbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 46%;
+    height: 100%;
+    background: var(--court-green);
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* เส้นขาวบางเฉียงตามขอบแถบ คล้ายเส้นสนาม */
+.navbar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 46%;
+    height: 100%;
+    background: var(--line-white);
+    clip-path: polygon(18% 0, calc(18% + 4px) 0, 4px 100%, 0 100%);
+}
+
+.navbar-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 30px;
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.logo span {
+.icon-logo {
+    width: 28px;
+    height: 28px;
     color: var(--accent-green);
 }
 
+.logo-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+}
+
+.logo-text em {
+    font-style: italic;
+    color: var(--accent-green);
+}
+
+/* ---------- ช่องค้นหา ---------- */
+.search-box {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+}
+
 .search-box input {
-    padding: 8px 15px;
-    border: 2px solid var(--court-green);
-    border-radius: 4px;
-    background: transparent;
-    color: white;
+    width: 220px;
+    padding: 8px 16px;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--line-white);
+    font-size: 14px;
+    font-weight: 300;
     outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-box input:focus {
+    border-color: var(--accent-green);
 }
 
 .search-box button {
-    padding: 8px 12px;
-    background-color: var(--accent-green);
+    display: grid;
+    place-items: center;
+    width: 38px;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
+    border-radius: 50%;
+    background-color: var(--accent-green);
     color: var(--dark-green);
+    cursor: pointer;
+    transition: transform 0.15s ease;
 }
 
+.search-box button:hover {
+    transform: scale(1.06);
+}
+
+.search-box .reset-btn {
+    background: transparent;
+    border: 1.5px solid var(--line-white);
+    color: var(--line-white);
+}
+
+/* =========================================================
+   TOURNAMENT STRIP – แผงข้อมูลย่อย
+   ========================================================= */
+.tournament-strip {
+    display: flex;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    border-bottom: 1px solid var(--line);
+}
+
+.strip-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 28px 12px 0;
+    margin-right: 28px;
+    font-size: 14px;
+    border-right: 1px solid var(--line);
+}
+
+.strip-item:last-child {
+    border-right: none;
+}
+
+.strip-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.strip-item strong {
+    font-weight: 500;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
 .container {
     max-width: 1000px;
-    margin: 40px auto;
+    margin: 36px auto 60px;
     padding: 0 20px;
 }
 
+/* ---------- Headline ---------- */
 .table-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 20px;
-    border-left: 5px solid var(--accent-green);
-    padding-left: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding-left: 18px;
+    position: relative;
+}
+
+/* แท่งเฉียงหน้าหัวข้อ */
+.table-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 7px;
+    background: var(--accent-green);
+    transform: skewX(-14deg);
+}
+
+.headline {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.headline-main {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(34px, 6vw, 56px);
+    letter-spacing: 0.02em;
+}
+
+.headline-sub {
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(14px, 2vw, 18px);
+    letter-spacing: 0.35em;
+    color: var(--accent-green);
 }
 
 .update-time {
-    color: #888;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 300;
+}
+
+/* ---------- ปุ่มแคปซูล (Pill) ---------- */
+.pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.pill {
+    padding: 8px 22px;
+    border: 1.5px solid var(--line-white);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--line-white);
     font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pill:hover {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+}
+
+.pill.is-active {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    color: var(--dark-green);
+    font-weight: 500;
 }
 
 .sort-status {
+    min-height: 21px;
     margin: 0 0 10px;
     color: var(--accent-green);
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
 }
 
+/* =========================================================
+   TABLE
+   ========================================================= */
 .table-container {
-    background-color: #1a1a1a;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    background-color: var(--surface);
+    border-radius: 6px;
+    overflow-x: auto;
+    border: 1px solid var(--line);
 }
 
 table {
     width: 100%;
+    min-width: 640px;
     border-collapse: collapse;
     text-align: left;
 }
 
-th, td {
-    padding: 15px 20px;
-    border-bottom: 1px solid #333;
+th,
+td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
 }
 
 th {
+    position: relative;
     background-color: var(--court-green);
     color: var(--line-white);
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--accent-green);
 }
 
 .sort-button {
@@ -116,7 +359,6 @@ th {
     background: none;
     color: inherit;
     font: inherit;
-    text-transform: inherit;
     letter-spacing: inherit;
     cursor: pointer;
 }
@@ -126,35 +368,146 @@ th {
     color: var(--accent-green);
 }
 
+.sort-button:focus-visible,
+.pill:focus-visible,
+.search-box button:focus-visible,
+.search-box input:focus-visible {
+    outline: 2px solid var(--accent-green);
+    outline-offset: 3px;
+}
+
+td {
+    font-size: 15px;
+    font-weight: 300;
+}
+
 tbody tr {
     transition: background-color 0.2s ease;
 }
 
+/* border-collapse ใช้ border บน tr ไม่ได้ จึงใช้ inset shadow ที่เซลล์แรกแทน */
 tbody tr:hover {
     background-color: var(--row-hover);
-    border-left: 4px solid var(--accent-green);
 }
 
+tbody tr:hover td:first-child {
+    box-shadow: inset 4px 0 0 var(--accent-green);
+}
+
+/* ---------- Rank badge (สี่เหลี่ยมด้านขนานเอียง) ---------- */
 .rank-badge {
+    display: inline-block;
+    min-width: 38px;
+    padding: 5px 12px;
     background-color: var(--court-green);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-weight: bold;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    text-align: center;
+    transform: skewX(-12deg);
+}
+
+tbody tr:nth-child(1) .rank-badge {
+    background-color: var(--accent-green);
+    color: var(--dark-green);
+}
+
+/* ---------- คอลัมน์ประเทศ: ธง + สัญลักษณ์ทีมทรงกลม ---------- */
+.country-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.team-emblem {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-green);
+    background: var(--dark-green);
+    font-size: 19px;
+    line-height: 1;
+}
+
+.empty-row td {
+    padding: 36px 20px;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* ตัวเลขใช้ tabular เพื่อให้เรียงตรงกัน */
+tbody td:nth-child(3),
+tbody td:nth-child(4),
+tbody td:nth-child(5) {
+    font-variant-numeric: tabular-nums;
 }
 
 .win-rate {
     color: var(--accent-green);
-    font-weight: bold;
+    font-weight: 500;
 }
 
+/* ---------- Form badges (ทรงกลม ชัดเจน) ---------- */
 .form-badge {
-    display: inline-block;
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-right: 2px;
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 0;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-style: italic;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 700;
 }
 
-.form-W { background-color: #105c3c; color: white; }
-.form-L { background-color: #8c1c1c; color: white; }
+.form-W { background-color: #1a9e62; color: #04180e; }
+.form-L { background-color: #b02a2a; color: var(--line-white); }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 760px) {
+    .navbar::before {
+        width: 60%;
+    }
+
+    .navbar::after {
+        width: 60%;
+    }
+
+    .navbar-inner {
+        flex-wrap: wrap;
+        padding: 12px 20px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        flex: 1;
+        width: auto;
+    }
+
+    .tournament-strip {
+        padding: 0 20px;
+        overflow-x: auto;
+    }
+
+    .strip-item {
+        white-space: nowrap;
+        padding-right: 18px;
+        margin-right: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}

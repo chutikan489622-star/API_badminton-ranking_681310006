@@ -68,26 +68,30 @@ function renderTable(data) {
     tbody.innerHTML = "";
 
     if (data.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>ไม่พบข้อมูล</td></tr>";
+        tbody.innerHTML = "<tr class='empty-row'><td colspan='6'>ไม่พบข้อมูล</td></tr>";
         return;
     }
 
-    data.forEach((team, index) => {
+    tbody.innerHTML = data.map((team, index) => {
         // ตกแต่งตัวอักษร W, L ให้เป็นป้ายสี
-        const formHtml = team.form.split('-').map(res => 
+        const formHtml = team.form.split('-').map(res =>
             `<span class="form-badge form-${res}">${res}</span>`
         ).join(' ');
 
-        const row = `
+        return `
             <tr>
                 <td><span class="rank-badge">#${index + 1}</span></td>
-                <td style="font-size: 18px;">${team.flag} <strong>${team.country}</strong></td>
+                <td>
+                    <div class="country-cell">
+                        <span class="team-emblem">${team.flag}</span>
+                        <span>${team.country}</span>
+                    </div>
+                </td>
                 <td>${team.matches}</td>
                 <td>${team.wins}</td>
                 <td class="win-rate">${team.winRate}%</td>
                 <td>${formHtml}</td>
             </tr>
         `;
-        tbody.innerHTML += row;
-    });
+    }).join('');
 }

@@ -4,22 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BWF World Rankings | Live Analytics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,700;1,800;1,900&family=Noto+Sans+Thai:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- ===== Navigation Bar (มีเส้นเฉียงด้านขวา) ===== -->
     <header class="navbar">
-        <div class="logo">🏸 COURT<span>RANKINGS</span></div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="ค้นหาประเทศ...">
-            <button onclick="searchCountry()">🔍</button>
-            <button onclick="fetchRankings()" class="reset-btn">🔄</button>
+        <div class="navbar-inner">
+            <div class="logo">
+                <svg class="icon icon-logo" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="9" cy="9" r="5.5"/>
+                    <path d="M13 13l7.5 7.5M6 6l6 6M12 4.5L5 12"/>
+                </svg>
+                <span class="logo-text">COURT<em>RANKINGS</em></span>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ค้นหาประเทศ..." aria-label="ค้นหาประเทศ">
+                <button onclick="searchCountry()" aria-label="ค้นหา">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+                </button>
+                <button onclick="fetchRankings()" class="reset-btn" aria-label="รีเซ็ตตาราง">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg>
+                </button>
+            </div>
+
         </div>
     </header>
 
+    <!-- ===== แผงข้อมูลทัวร์นาเมนต์ย่อย ===== -->
+    <section class="tournament-strip" aria-label="ข้อมูลทัวร์นาเมนต์">
+        <div class="strip-item">
+            <span class="strip-label">ประเภท</span>
+            <strong>Team Rankings</strong>
+        </div>
+        <div class="strip-item">
+            <span class="strip-label">จำนวนทีม</span>
+            <strong>5 ทีม</strong>
+        </div>
+    </section>
+
     <main class="container">
         <div class="table-header">
-            <h2>🌍 จัดอันดับทีมชาติ (Team Rankings)</h2>
-            <span class="update-time">อัปเดตล่าสุด: วันนี้ 12:00 น.</span>
+            <div class="headline">
+                <h1 class="headline-main">WORLD</h1>
+                <span class="headline-sub">BADMINTON TEAM RANKINGS</span>
+            </div>
+            <span class="update-time">จัดอันดับทีมชาติ · 5 ทีม</span>
         </div>
 
         <p class="sort-status" id="sortStatus" role="status" aria-live="polite"></p>
@@ -36,9 +71,7 @@
                         <th>ฟอร์ม 5 นัดหลัง</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <!-- ข้อมูลจะถูก render ที่นี่ผ่าน app.js -->
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
     </main>
